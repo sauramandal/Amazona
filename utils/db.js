@@ -18,7 +18,6 @@ async function connect() {
         await mongoose.disconnect()
     }
     const url = process.env.MONGODB_URL
-    // console.log('env'); console.log(process.env)
     const db = await mongoose.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
