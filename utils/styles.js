@@ -14,10 +14,11 @@ const useStyles = makeStyles({
     },
     main: {
         minHeight: '80vh',
+        marginTop: '80px'
     },
     grow: {
         flexGrow: 1
-    }
+    },
 })
 
 export default useStyles

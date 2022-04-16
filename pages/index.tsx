@@ -4,7 +4,7 @@ import data from '../data/data'
 
 export default function Home() {
     return (
-        <Layout>
+        <Layout title={'Amazona'}>
             {/* <h1 className="display-1 mx-4">Products</h1> */}
             <div
                 className="d-flex flex-wrap justify-content-center"

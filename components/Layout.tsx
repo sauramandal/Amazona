@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useStyles from '../utils/styles'
 
 type Props = {
+    title?: string
+    description?: string
     children: React.ReactNode
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ title, description, children }: Props) => {
     const classes = useStyles()
     return (
         <div>
             <Head>
-                <title>Amazona</title>
+                <title>{title ? `${title} - Amazona` : 'Amazona'}</title>
+                {description && <meta name="description" content={description}></meta>}
             </Head>
             <nav className="navbar navbar-dark navbar-expand-sm bg-dark fixed-top p-2">
                 <a href="/" className="navbar-brand">
