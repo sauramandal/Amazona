@@ -8,7 +8,7 @@ type Props = {
     isCollapsed?: boolean
     header?: JSX.Element
     title: string
-    titleIcon: string | any
+    titleIcon?: string | any
     onClick?: () => void
 }
 
