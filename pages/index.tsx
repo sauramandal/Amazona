@@ -1,8 +1,24 @@
 import Layout from '../components/Layout'
 import Card from '../components/Card/Card'
-import data from '../data/data'
+import Product from '../models/Product'
+import db from '../utils/db'
 
-export default function Home() {
+type Props = Array<{
+    name: string
+    slug: string
+    category: string
+    image: string
+    isFeatured: boolean
+    featuredImage: string
+    price: number
+    brand: string
+    rating: number
+    numReviews: number
+    countInStock: number
+    description: string
+}>
+
+export default function Home({ products }: Props) {
     return (
         <Layout title={'Amazona'}>
             {/* <h1 className="display-1 mx-4">Products</h1> */}
@@ -10,8 +26,8 @@ export default function Home() {
                 className="d-flex flex-wrap justify-content-center"
                 style={{ marginTop: '60px' }}
             >
-                {data &&
-                    data?.products?.map((product, productIndex) => (
+                {products &&
+                    products?.map((product, productIndex) => (
                         <Card
                             key={productIndex}
                             className="m-4"
@@ -43,4 +59,16 @@ export default function Home() {
             </div>
         </Layout>
     )
+}
+
+export async function getServerSideProps(context) {
+    await db.connect()
+    const products = await Product.find({}).lean()
+    // console.log('products', products)
+    await db.disconnect()
+    return {
+        props: {
+            products: products.map(db.convertDocToObj),
+        },
+    }
 }
