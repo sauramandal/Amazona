@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router'
 import Card from '../../components/Card/Card'
 import Layout from '../../components/Layout'
-import data from '../../data/data'
+import Product from '../../models/Product'
+import db from '../../utils/db'
 
 const productDetails = [
     { id: 0, name: 'Category: ', key: 'category' },
@@ -11,10 +11,27 @@ const productDetails = [
     { id: 4, name: 'Price: $', key: 'price' },
 ]
 
-const ProductScreen = () => {
-    const router = useRouter()
-    const { slug } = router.query
-    const product = data.products.find((item) => item.slug === slug)
+type Props = {
+    product: {
+        name: string
+        slug: string
+        category: string
+        image: string
+        isFeatured: boolean
+        featuredImage: string
+        price: number
+        brand: string
+        rating: number
+        numReviews: number
+        countInStock: number
+        description: string
+    }
+}
+
+const ProductScreen = ({ product }: Props) => {
+    // const router = useRouter()
+    // const { slug } = router.query
+    // const product = data.products.find((item) => item.slug === slug)
     if (!product) {
         return <div className="">Product Not Found</div>
     }
@@ -50,6 +67,19 @@ const ProductScreen = () => {
             </div>
         </Layout>
     )
+}
+
+export async function getServerSideProps(context) {
+    const { params } = context
+    const { slug } = params
+    await db.connect()
+    const product = await Product.findOne({ slug }).lean()
+    await db.disconnect()
+    return {
+        props: {
+            product: db.convertDocToObj(product),
+        },
+    }
 }
 
 export default ProductScreen
